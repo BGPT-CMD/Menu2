@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>A + B's Cafe</title>
+
   <style>
     body {
       margin: 0;
@@ -15,13 +17,11 @@
       background: radial-gradient(circle at 20% 30%, #1a0033, #000010, #000000);
     }
 
-    /* Stars */
     body::before {
       content: "";
       position: absolute;
       width: 200%;
       height: 200%;
-      background: transparent;
       box-shadow:
         100px 200px white,
         300px 400px white,
@@ -42,64 +42,60 @@
     .welcome-box {
       position: relative;
       text-align: center;
-      padding: 50px;
+      padding: 6vw;
+      width: min(90%, 420px);
       border-radius: 15px;
       background: rgba(0, 0, 0, 0.6);
       box-shadow: 0 0 30px rgba(255,255,255,0.2);
     }
 
     h1 {
-      font-size: 3em;
+      font-size: clamp(1.8rem, 5vw, 3rem);
       margin: 0;
     }
 
     p {
-      margin-top: 15px;
+      margin-top: 12px;
       color: #ccc;
+      font-size: clamp(0.9rem, 3vw, 1rem);
     }
 
     .coffee-btn {
-      font-size: 3em;
+      font-size: clamp(2.5rem, 8vw, 3.5rem);
       margin-top: 20px;
       cursor: pointer;
       display: inline-block;
       animation: pulse 1.5s infinite;
+      user-select: none;
+      touch-action: manipulation;
     }
 
     .coffee-btn:hover {
       animation: none;
-      transform: scale(1.4);
+      transform: scale(1.3);
       filter: drop-shadow(0 0 15px white);
     }
 
     @keyframes pulse {
-      0% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
-      }
-      50% {
-        transform: scale(1.25);
-        filter: drop-shadow(0 0 20px rgba(255,255,255,0.8));
-      }
-      100% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
-      }
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
     }
   </style>
 </head>
+
 <body>
 
   <div class="welcome-box">
     <h1>Welcome to A + B's Cafe ☕</h1>
-    <p>Click the coffee to enter</p>
+    <p>Tap the coffee to enter</p>
 
     <div class="coffee-btn" onclick="goToMenu()">☕</div>
   </div>
 
   <script>
     function goToMenu() {
-      window.location.href = "menu.html";
+      window.location.href = "./menu.html";
     }
   </script>
 
