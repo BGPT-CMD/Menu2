@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>A + B's Cafe</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      overflow: hidden;
+      background: radial-gradient(circle at 20% 30%, #1a0033, #000010, #000000);
+    }
+
+    /* Stars */
+    body::before {
+      content: "";
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: transparent;
+      box-shadow:
+        100px 200px white,
+        300px 400px white,
+        500px 100px white,
+        700px 600px white,
+        900px 300px white,
+        1200px 500px white,
+        1500px 200px white,
+        1700px 700px white;
+      animation: twinkle 5s infinite alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.3; }
+      to { opacity: 1; }
+    }
+
+    .welcome-box {
+      position: relative;
+      text-align: center;
+      padding: 50px;
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 30px rgba(255,255,255,0.2);
+    }
+
+    h1 {
+      font-size: 3em;
+      margin: 0;
+    }
+
+    p {
+      margin-top: 15px;
+      color: #ccc;
+    }
+
+    .coffee-btn {
+      font-size: 3em;
+      margin-top: 20px;
+      cursor: pointer;
+      display: inline-block;
+      animation: pulse 1.5s infinite;
+    }
+
+    .coffee-btn:hover {
+      animation: none;
+      transform: scale(1.4);
+      filter: drop-shadow(0 0 15px white);
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
+      }
+      50% {
+        transform: scale(1.25);
+        filter: drop-shadow(0 0 20px rgba(255,255,255,0.8));
+      }
+      100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="welcome-box">
+    <h1>Welcome to A + B's Cafe ☕</h1>
+    <p>Click the coffee to enter</p>
+
+    <div class="coffee-btn" onclick="goToMenu()">☕</div>
+  </div>
+
+  <script>
+    function goToMenu() {
+      window.location.href = "menu.html";
+    }
+  </script>
+
+</body>
+</html>
