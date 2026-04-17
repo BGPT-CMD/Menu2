@@ -12,16 +12,20 @@
       min-height: 100vh;
       display: flex;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       background: radial-gradient(circle at 30% 20%, #1a0033, #000010, #000000);
       overflow-x: hidden;
+      padding: 20px;
     }
 
     body::before {
       content: "";
-      position: absolute;
+      position: fixed;
+      top: 0;
+      left: 0;
       width: 200%;
       height: 200%;
+      pointer-events: none;
       box-shadow:
         120px 80px white,
         250px 300px white,
@@ -39,29 +43,37 @@
       to { opacity: 1; }
     }
 
-    .menu-box {
-      position: relative;
-      width: min(92%, 380px);
-      padding: 6vw;
+    .container {
+      width: min(95%, 800px);
+    }
+
+    .menu-box, .cart-box {
+      background: rgba(0,0,0,0.65);
       border-radius: 15px;
-      background: rgba(0, 0, 0, 0.65);
-      box-shadow: 0 0 30px rgba(255,255,255,0.15);
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+    }
+
+    h1, h2 {
       text-align: center;
     }
 
-    h1 {
-      font-size: clamp(1.8rem, 5vw, 2.5rem);
-      margin-bottom: 20px;
-    }
-
     .item {
+      position: relative;
       display: flex;
       justify-content: space-between;
       padding: 12px;
       margin: 10px 0;
       border-radius: 10px;
       background: rgba(255,255,255,0.08);
-      font-size: clamp(0.9rem, 3.5vw, 1.1rem);
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .item:hover {
+      background: rgba(255,255,255,0.15);
+      transform: scale(1.03);
     }
 
     .price {
@@ -69,47 +81,132 @@
       font-weight: bold;
     }
 
-    a {
-      display: inline-block;
-      margin-top: 15px;
-      color: #ccc;
-      text-decoration: none;
-      font-size: 0.9rem;
+    /* Tooltip description */
+    .desc {
+      position: absolute;
+      bottom: 110%;
+      left: 0;
+      background: black;
+      padding: 8px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.2s;
+      width: 200px;
     }
 
-    a:hover {
-      color: white;
+    .item:hover .desc {
+      opacity: 1;
     }
+
+    /* Cart */
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      margin: 8px 0;
+      align-items: center;
+    }
+
+    .controls button {
+      margin: 0 5px;
+      cursor: pointer;
+    }
+
+    .total {
+      margin-top: 15px;
+      font-size: 1.2rem;
+      text-align: right;
+      color: #ffd27d;
+    }
+
   </style>
 </head>
 
 <body>
 
+<div class="container">
+
   <div class="menu-box">
     <h1>Menu ☕</h1>
 
-    <div class="item">
+    <div class="item" onclick="addToCart('Spit-Squirt Pre-Workout', 8)">
       <span>Spit-Squirt Pre-Workout</span>
       <span class="price">$8</span>
+      <div class="desc">A high-energy boost guaranteed to wake you up instantly.</div>
     </div>
 
-    <div class="item">
+    <div class="item" onclick="addToCart('Breast Milk Latte', 25)">
       <span>Breast Milk Latte</span>
       <span class="price">$25</span>
+      <div class="desc">Ultra-creamy, rich, and definitely unforgettable.</div>
     </div>
 
-    <div class="item">
+    <div class="item" onclick="addToCart('Umbilical Cord Supps', 20)">
       <span>Umbilical Cord Supps</span>
       <span class="price">$20</span>
+      <div class="desc">Packed with nutrients for peak performance.</div>
     </div>
 
-    <div class="item">
+    <div class="item" onclick="addToCart('Placenta Tacos', 32)">
       <span>Placenta Tacos</span>
       <span class="price">$32</span>
+      <div class="desc">Exotic fusion dish with bold flavors.</div>
     </div>
-
-    <a href="./index.html">← Back</a>
   </div>
+
+  <div class="cart-box">
+    <h2>🛒 Cart</h2>
+    <div id="cart"></div>
+    <div class="total" id="total">Total: $0</div>
+  </div>
+
+</div>
+
+<script>
+let cart = {};
+
+function addToCart(name, price) {
+  if (!cart[name]) {
+    cart[name] = { price: price, qty: 1 };
+  } else {
+    cart[name].qty++;
+  }
+  renderCart();
+}
+
+function changeQty(name, amount) {
+  cart[name].qty += amount;
+  if (cart[name].qty <= 0) {
+    delete cart[name];
+  }
+  renderCart();
+}
+
+function renderCart() {
+  const cartDiv = document.getElementById("cart");
+  cartDiv.innerHTML = "";
+
+  let total = 0;
+
+  for (let item in cart) {
+    let data = cart[item];
+    total += data.price * data.qty;
+
+    cartDiv.innerHTML += `
+      <div class="cart-item">
+        <span>${item} (${data.qty})</span>
+        <div class="controls">
+          <button onclick="changeQty('${item}', -1)">−</button>
+          <button onclick="changeQty('${item}', 1)">+</button>
+        </div>
+      </div>
+    `;
+  }
+
+  document.getElementById("total").innerText = "Total: $" + total;
+}
+</script>
 
 </body>
 </html>
